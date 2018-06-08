@@ -5,3 +5,5 @@ This contains some fixes for xcgd/nginx-vts, including updated nginx versions an
 Our thanks to them for providing a good baseline configuration!
 
 See https://github.com/vozlt/nginx-module-vts
+
+Tags correspond to the packaged Nginx version
