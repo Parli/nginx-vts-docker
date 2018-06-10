@@ -1,6 +1,6 @@
 FROM alpine:3.5
 
-LABEL maintainer="release@xcg-consulting.fr"
+LABEL maintainer="eric@slant.co"
 
 ENV NGINX_VERSION 1.14.0
 ENV VTS_VERSION 0.1.16
