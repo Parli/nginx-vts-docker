@@ -2,7 +2,7 @@ version: 2.1
 
 executors:
   baseline_executor: # Baseline executor used by all the jobs
-    working_directory: ~/blockfi-wp-relay
+    working_directory: ~/nginx-vts-docker
 
     docker:
       - image: circleci/buildpack-deps:stretch
