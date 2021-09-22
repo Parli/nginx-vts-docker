@@ -1,0 +1,40 @@
+name: Build & Push Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_push_image:
+    name: Build & Push Image
+    runs-on: self-hosted
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        repository: blockfi/nginx-vts-docker
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Log in to Amazon ECR
+      id: ecr-login
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Build Image
+      run: docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA .
+      env:
+        ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+        ECR_REPOSITORY: blockfi/nginx-vts-docker
+        GITHUB_SHA: ${{ github.sha }}
+    - name: Push Image
+      run: docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
+      env:
+        ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+        ECR_REPOSITORY: blockfi/nginx-vts-docker
+        GITHUB_SHA: ${{ github.sha }}
